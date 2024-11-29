@@ -55,7 +55,7 @@ jobs:
       - name: Start ssh-agent and add SSH key
         run: |
           eval $(ssh-agent -s)
-          ssh-add ~/.ssh/rsa
+          ssh-add ~/.ssh/
 
       - name: Install sshpass
         run: sudo apt-get install sshpass
