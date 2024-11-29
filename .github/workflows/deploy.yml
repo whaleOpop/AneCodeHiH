@@ -7,7 +7,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ghcr.io/whaleopop/anecode-app-backend
+  IMAGE_NAME: ghcr.io/whaleopop/anecode-backend
 
 jobs:
   build:
@@ -36,6 +36,6 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ghcr.io/whaleopop/anecode-app-backend:latest
+          tags: ghcr.io/whaleopop/anecode-backend:latest
           build-args: |
             DJANGO_SECRET_KEY=${{ secrets.DJANGO_SECRET_KEY }}
