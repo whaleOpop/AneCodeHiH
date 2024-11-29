@@ -7,7 +7,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ghcr.io/whaleopop/anecode-app-frontend
+  IMAGE_NAME: ghcr.io/whaleopop/anecode-frontend
 
 jobs:
   build:
@@ -46,4 +46,4 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ghcr.io/whaleopop/anecode-app-frontend:latest
+          tags: ghcr.io/whaleopop/anecode-frontend:latest
