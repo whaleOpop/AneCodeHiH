@@ -41,21 +41,20 @@ jobs:
       - name: Setup SSH Keys and known_hosts
         run: |
           mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/rsa
-          chmod 600 ~/.ssh/rsa
-
-      - name: Add host to known_hosts
-        run: ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
-        
-      - name: Debug SSH Setup
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa  # Save the key with a default name
+          chmod 600 ~/.ssh/id_rsa  # Ensure correct permissions for the private key
+          chmod 700 ~/.ssh         # Set secure permissions for the .ssh directory
+      
+      - name: Debug SSH Key
         run: |
-          ls -la ~/.ssh
-          cat ~/.ssh/rsa || echo "SSH private key is invalid or missing"
-
+          cat ~/.ssh/id_rsa
+          ssh-keygen -lf ~/.ssh/id_rsa || echo "Failed to load key"
+      
       - name: Start ssh-agent and add SSH key
         run: |
           eval $(ssh-agent -s)
-          ssh-add ~/.ssh/
+          ssh-add ~/.ssh/id_rsa  # Use the correct file name here
+      
 
       - name: Install sshpass
         run: sudo apt-get install sshpass
