@@ -46,7 +46,7 @@ jobs:
 
       - name: Add host to known_hosts
         run: ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
-        
+
       - name: Debug SSH Setup
         run: |
           ls -la ~/.ssh
@@ -55,15 +55,16 @@ jobs:
       - name: Start ssh-agent and add SSH key
         run: |
           eval $(ssh-agent -s)
-          ssh-add ~/.ssh/id_ed25519
+          ssh-add -v ~/.ssh/id_ed25519
 
-
-      - name: Install sshpass
-        run: sudo apt-get install sshpass
+      - name: Install OpenSSH Client and sshpass
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y openssh-client sshpass
 
       - name: Execute remote commands with sshpass
         run: |
-          sshpass -p "${{ secrets.SSH_PASSWORD}}" ssh -o StrictHostKeyChecking=no root@${{ secrets.SSH_HOST }} << 'EOF'
+          sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh -o StrictHostKeyChecking=no -v root@${{ secrets.SSH_HOST }} << 'EOF'
           if ! id -u deploy_user &>/dev/null; then
             useradd -m deploy_user
             echo "deploy_user:password" | chpasswd
@@ -73,7 +74,7 @@ jobs:
 
       - name: Stop and delete existing Docker container
         run: |
-          sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh -o StrictHostKeyChecking=no root@${{ secrets.SSH_HOST }} << 'EOF'
+          sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh -o StrictHostKeyChecking=no -v root@${{ secrets.SSH_HOST }} << 'EOF'
           if docker ps -a --format '{{.Names}}' | grep -Eq '^docker-db$'; then
             docker stop docker-db && docker rm docker-db
           fi
@@ -88,7 +89,7 @@ jobs:
           sshpass -p "${{ secrets.SSH_PASSWORD }}" scp -o StrictHostKeyChecking=no anecode-frontend.tar.gz root@${{ secrets.SSH_HOST }}:/tmp/
 
           # Load the Docker image on the remote server
-          sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh -o StrictHostKeyChecking=no root@${{ secrets.SSH_HOST }} << 'EOF'
+          sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh -o StrictHostKeyChecking=no -v root@${{ secrets.SSH_HOST }} << 'EOF'
           docker load -i /tmp/anecode-frontend.tar.gz
           docker rm -f anecode-frontend || true
           docker run -d --name anecode-frontend -p 80:80 ${{ env.IMAGE_NAME }}
