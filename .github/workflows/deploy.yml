@@ -28,7 +28,7 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t ${{ env.IMAGE_NAME }} .
+          docker build -t ${{ env.IMAGE_NAME }}:latest .
 
   deploy:
     runs-on: ubuntu-latest
@@ -62,19 +62,17 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y openssh-client sshpass
 
-      - name: Install sshpass
-        run: sudo apt-get install sshpass
-  
-      - name: Execute remote commands with sshpass
+      - name: Execute remote commands with sshpass to create deploy user and group
         run: |
-          sshpass -p "${{ secrets.SSH_PASSWORD}}" ssh -o StrictHostKeyChecking=no root@${{ secrets.SSH_HOST }} << 'EOF'
+          sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh -o StrictHostKeyChecking=no root@${{ secrets.SSH_HOST }} << 'EOF'
           if ! id -u deploy_user &>/dev/null; then
             useradd -m deploy_user
             echo "deploy_user:password" | chpasswd
+            groupadd docker  # Ensure docker group exists
             usermod -aG docker deploy_user
           fi
           EOF
-  
+
       - name: Stop and delete existing Docker container
         run: |
           sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh -o StrictHostKeyChecking=no root@${{ secrets.SSH_HOST }} << 'EOF'
@@ -82,10 +80,10 @@ jobs:
             docker stop anecode-frontend && docker rm anecode-frontend
           fi
           EOF
-  
+
       - name: Pull and deploy new Docker container
         run: |
           sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh -o StrictHostKeyChecking=no root@${{ secrets.SSH_HOST }} << 'EOF'
-          docker pull ${{ env.IMAGE_NAME }}:lastest
-
+          docker pull ${{ env.IMAGE_NAME }}:latest
+          docker run -d --name anecode-frontend ${{ env.IMAGE_NAME }}:latest
           EOF
