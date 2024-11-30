@@ -78,14 +78,14 @@ jobs:
       - name: Stop and delete existing Docker container
         run: |
           sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh -o StrictHostKeyChecking=no root@${{ secrets.SSH_HOST }} << 'EOF'
-          if docker ps -a --format '{{.Names}}' | grep -Eq '^docker-db$'; then
-            docker stop docker-db && docker rm docker-db
+          if docker ps -a --format '{{.Names}}' | grep -Eq '^anecode-frontend$'; then
+            docker stop anecode-frontend && docker rm anecode-frontend
           fi
           EOF
   
       - name: Pull and deploy new Docker container
         run: |
           sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh -o StrictHostKeyChecking=no root@${{ secrets.SSH_HOST }} << 'EOF'
-          docker pull ${{ env.IMAGE_NAME }}:docker-db
-          docker run -e MYSQL_USER=root -e MYSQL_PASSWORD=${{secrets.SSH_PASSWORD}} -e MYSQL_HOST=${{ secrets.SSH_HOST }} -e MYSQL_DB=loveappdb -d --name docker-db -p 8080:8000 ${{ env.IMAGE_NAME }}:docker-db
+          docker pull ${{ env.IMAGE_NAME }}:lastest
+
           EOF
