@@ -10,7 +10,9 @@ export default defineConfig({
     host: true,
     strictPort: true
   },
-
+  watch: {
+    usePolling: true,
+  },
   base: '/',
   resolve: {
     alias: {
