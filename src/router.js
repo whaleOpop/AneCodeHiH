@@ -10,6 +10,8 @@ import DashBoard from './views/DashBoard.vue'
 
 import ReportsPage from './views/ReportsPage.vue'
 import CreateReportPage from './views/CreateReportPage.vue'
+import HelpPage from './views/HelpPage.vue'
+import SupportPage from './views/SupportPage.vue'
 
 const routes = [
   {
@@ -29,23 +31,23 @@ const routes = [
     children: [
       {
         path: 'main',
-        name: 'main',
+        name: 'Main',
         component: ReportsPage,
       },
       {
         path: 'create',
-        name: 'create',
+        name: 'Create',
         component: CreateReportPage,
       },
       {
         path: 'help',
-        name: 'help',
-        component: DashBoard,
+        name: 'Help',
+        component: HelpPage,
       },
       {
         path: 'support',
-        name: 'Home',
-        component: DashBoard,
+        name: 'Support',
+        component: SupportPage,
       },
     ]
   },
