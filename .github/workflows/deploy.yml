@@ -62,35 +62,30 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y openssh-client sshpass
 
+      - name: Install sshpass
+        run: sudo apt-get install sshpass
+  
       - name: Execute remote commands with sshpass
         run: |
-          sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh -o StrictHostKeyChecking=no -v root@${{ secrets.SSH_HOST }} << 'EOF'
+          sshpass -p "${{ secrets.SSH_PASSWORD}}" ssh -o StrictHostKeyChecking=no root@${{ secrets.SSH_HOST }} << 'EOF'
           if ! id -u deploy_user &>/dev/null; then
             useradd -m deploy_user
             echo "deploy_user:password" | chpasswd
             usermod -aG docker deploy_user
           fi
           EOF
-
+  
       - name: Stop and delete existing Docker container
         run: |
-          sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh -o StrictHostKeyChecking=no -v root@${{ secrets.SSH_HOST }} << 'EOF'
+          sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh -o StrictHostKeyChecking=no root@${{ secrets.SSH_HOST }} << 'EOF'
           if docker ps -a --format '{{.Names}}' | grep -Eq '^docker-db$'; then
             docker stop docker-db && docker rm docker-db
           fi
           EOF
-
-      - name: Copy Docker image to the remote server and deploy
+  
+      - name: Pull and deploy new Docker container
         run: |
-          # Save the Docker image as a tar file
-          docker save ${{ env.IMAGE_NAME }} | gzip > anecode-frontend.tar.gz
-          
-          # Copy the Docker image tar file to the remote server
-          sshpass -p "${{ secrets.SSH_PASSWORD }}" scp -o StrictHostKeyChecking=no anecode-frontend.tar.gz root@${{ secrets.SSH_HOST }}:/tmp/
-
-          # Load the Docker image on the remote server
-          sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh -o StrictHostKeyChecking=no -v root@${{ secrets.SSH_HOST }} << 'EOF'
-          docker load -i /tmp/anecode-frontend.tar.gz
-          docker rm -f anecode-frontend || true
-          docker run -d --name anecode-frontend -p 80:80 ${{ env.IMAGE_NAME }}
+          sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh -o StrictHostKeyChecking=no root@${{ secrets.SSH_HOST }} << 'EOF'
+          docker pull ${{ env.IMAGE_NAME }}:docker-db
+          docker run -e MYSQL_USER=root -e MYSQL_PASSWORD=${{secrets.SSH_PASSWORD}} -e MYSQL_HOST=${{ secrets.SSH_HOST }} -e MYSQL_DB=loveappdb -d --name docker-db -p 8080:8000 ${{ env.IMAGE_NAME }}:docker-db
           EOF
