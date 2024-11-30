@@ -1,6 +1,6 @@
 FROM node:18 AS build
 
-WORKDIR /app
+WORKDIR /src
 
 COPY package*.json ./
 
@@ -14,6 +14,6 @@ FROM nginx:1.23
 
 COPY --from=build /app/dist /usr/share/nginx/html
 
-EXPOSE 8090
+EXPOSE 8080
 
 CMD ["nginx", "-g", "daemon off;"]
