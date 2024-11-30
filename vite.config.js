@@ -10,10 +10,6 @@ export default defineConfig({
     host: true,
     strictPort: true
   },
-  root: 'src',
-  build: {
-    outDir: '../dist'
-  },
 
   base: '/',
   resolve: {
