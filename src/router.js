@@ -1,4 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
+
+import NProgress from 'nprogress';
+
+
 import WelcomePage from './views/WelcomePage.vue'
 import TeamPage from './views/TeamPage.vue'
 import DashBoard from './views/DashBoard.vue'
@@ -43,6 +47,21 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL), // Use import.meta.env.BASE_URL
   routes,
+});
+
+router.beforeEach((to, from, next) => {
+  // Запуск индикатора прогресса
+  NProgress.start();
+  NProgress.configure({ easing: 'ease', speed: 400 });
+  NProgress.configure({ showSpinner: false });
+  setTimeout(() => {
+    next(); // Переход к следующему роуту после задержки
+  }, 300)
+});
+
+router.afterEach(() => {
+  // Завершение индикатора прогресса
+  NProgress.done();
 });
 
 export default router;
