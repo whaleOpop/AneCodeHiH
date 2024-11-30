@@ -1,5 +1,5 @@
 server {
-    listen 8090;
+    listen 8080;
     allow 192.168.1.100;
 
     root /usr/share/nginx/html;
