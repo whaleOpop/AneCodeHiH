@@ -18,7 +18,7 @@ export default {
     components: { ReportCard },
     data () {
         return {
-            reports:[
+            reports:[   
             {
                     id: 1,
                     name: 'Отчет о матане',
@@ -26,6 +26,7 @@ export default {
                     number: '2SFD34 797',
                     client: 'Иван Белов',
                     cost: '12 000',
+                    photos: '',
                 },
                 {
                     id: 1,
@@ -34,6 +35,7 @@ export default {
                     number: '2SFD34 797',
                     client: 'Иван Белов',
                     cost: '12 000',
+                    photos: '',
                 },
                 {
                     id: 1,
@@ -42,6 +44,7 @@ export default {
                     number: '2SFD34 797',
                     client: 'Иван Белов',
                     cost: '12 000',
+                    photos: '',
                 },
                 {
                     id: 1,
@@ -50,6 +53,7 @@ export default {
                     number: '2SFD34 797',
                     client: 'Иван Белов',
                     cost: '12 000',
+                    photos: '',
                 }
             ]
         }

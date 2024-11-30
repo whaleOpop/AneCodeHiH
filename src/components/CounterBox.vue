@@ -1,16 +1,16 @@
 <template>
-  <div class="counterBox">
+  <div class="counterBox" >
     <p class="label">{{ label }}</p>
     <div class="counterBlock">
-        <div class="decrease" @click="localValue--">
+        <div class="decrease" @click="updateValue(localValue - 1)" :style="{ borderColor: error ? 'var(--colors-red)' : '' }">
 
             <svg width="10" height="2" viewBox="0 0 10 2" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M10 0H0V1.4H10V0Z" fill="var(--colors-black)"/>
             </svg>
 
         </div>
-        <input class="counterValue" type="text" placeholder="0" :value="localValue"  @input="updateValue($event.target.value)">
-        <div class="increase" @click="localValue++">
+        <input class="counterValue" type="text" placeholder="0" :value="localValue"  @input="updateValue($event.target.value)" :style="{ borderColor: error ? 'var(--colors-red)' : '' }">
+        <div class="increase" @click="updateValue(localValue + 1)" :style="{ borderColor: error ? 'var(--colors-red)' : '' }">
 
             <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M4.28576 5.71429V10H5.71433V5.71429H10V4.28571H5.71433V0H4.28576V4.28571H0V5.71429H4.28576Z" fill="var(--colors-black)"/>
@@ -27,8 +27,9 @@ export default {
         label: String,
         value: {
             type: Number,
-            default: '',
+            default: 0,
         },
+        error: Boolean,
     },
     data () {
         return {
@@ -40,8 +41,12 @@ export default {
     },
     methods: {
         updateValue(newValue) {
-        this.localValue = newValue;
-        this.$emit('update:value', newValue);
+            if (newValue < 0) {
+                newValue = 0
+            }
+            this.localValue = newValue;
+            this.$emit('update:value', newValue);
+            console.log('updated', newValue)
         },
     },
 };

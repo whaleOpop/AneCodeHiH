@@ -1,6 +1,6 @@
 <template>
-    <div class="container" @click="changeStatement()">
-      <div class="box-checked" v-if="statement">
+    <div class="container">
+      <div class="box-checked" v-if="checked">
           <div class="circle"></div>
       </div>
       <div class="box" v-else></div>
@@ -15,12 +15,6 @@ export default {
         return {
             statement: false,
         }
-    },
-    methods: {
-        changeStatement() {
-            this.statement = !this.statement
-            this.$parent.$emit('changed', this.statement)
-        },
     },
     mounted(){
         this.statement = this.checked;

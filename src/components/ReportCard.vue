@@ -1,25 +1,26 @@
 <template>
   <div class="reportCard">
-    <p class="name">{{ data.name }}</p>
-    <img src="https://avatars.mds.yandex.net/i?id=a7279c4dc62a962174bc2aa2181d5fa9_l-5288046-images-thumbs&n=13" alt="" class="photo">
+    <p class="name">{{ data.name || 'Название отчета' }}</p>
+    <img v-if="data.photos[0]" :src="data.photos[0]" alt="" class="photo">
+    <img v-else src="../assets/noPhoto.jpg" alt="" class="photo">
 
     <div class="info">
-        <p class="title">{{ data.avto }}</p>
+        <p class="title">{{ data.avto || 'Автомобиль' }}</p>
         <p class="subtitle">Авто</p>
     </div>
 
     <div class="info">
-        <p class="title">{{ data.number }}</p>
+        <p class="title">{{ data.number || 'Номер' }}</p>
         <p class="subtitle">Регистрационный номер</p>
     </div>
 
     <div class="info">
-        <p class="title">{{ data.client }}</p>
+        <p class="title">{{ data.client || 'Имя Фамилия' }}</p>
         <p class="subtitle">Клиент</p>
     </div>
 
     <div class="info">
-        <p class="title">{{ data.cost }}</p>
+        <p class="title">{{ data.cost || 'Стоимость' }}</p>
         <p class="subtitle">Итоговая стоимость</p>
     </div>
 
