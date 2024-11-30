@@ -1,8 +1,13 @@
-version: "3.9"
-services:
-  frontend:
-    image: ghcr.io/whaleopop/anecode-app:latest
-    container_name: anecode-frontend
-    ports:
-      - "8890:8090"
-    restart: always
+  version: "3.9"
+  services:
+    frontend:
+      build: .
+      volumes:
+      - .:/app
+      image: ghcr.io/whaleopop/anecode-app:latest
+      container_name: anecode-frontend
+      ports:
+        - "8080:8080"
+      restart: always
+      environment:
+      - NODE_ENV=production
