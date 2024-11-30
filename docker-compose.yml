@@ -6,7 +6,7 @@ services:
     ports:
       - "8889:8889"
     volumes:
-      - .:/
+      - .:/app
     environment:
       - DATABASE_URL=mysql+pymysql://root:${{secrets.MYSQL_PASSWORD}}@${{ secrets.MYSQL_HOST }}:3306/${{secrets.MYSQL_DB}}
     depends_on:
