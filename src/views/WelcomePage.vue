@@ -26,7 +26,7 @@
                 :type="'password'"
                 :placeholder="'Введите пароль'"/>
 
-                <Counter :value="123" :label="'Счётчик говна'"/>
+                <!-- <Counter :value="123" :label="'Счётчик говна'"/> -->
 
                 <p class="error-message" v-if="v$.login.$error || v$.pass.$error">Пожалуйста, заполните выделенные поля</p>
             </div>
