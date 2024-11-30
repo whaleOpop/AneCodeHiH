@@ -9,7 +9,6 @@ env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ghcr.io/whaleopop/anecode-backend
 
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -18,19 +17,28 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
+      - name: Log in to the Container registry
+        uses: docker/login-action@v3.0.0
         with:
-          node-version: 18
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Install dependencies and build
-        run: |
-          npm install
-          npm run build
-
-      - name: Build Docker image
-        run: |
-          docker build -t ${{ env.IMAGE_NAME }}:latest .
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
+        with:
+          images: ${{ env.IMAGE_NAME }}
+          
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: ghcr.io/whaleopop/anecode-backend:latest
+          build-args: |
+            DJANGO_SECRET_KEY=${{ secrets.DJANGO_SECRET_KEY }}
 
   deploy:
     runs-on: ubuntu-latest
@@ -78,20 +86,20 @@ jobs:
       - name: Stop and delete existing Docker container
         run: |
           sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh -o StrictHostKeyChecking=no root@${{ secrets.SSH_HOST }} << 'EOF'
-          if docker ps -a --format '{{.Names}}' | grep -Eq '^anecode-backend$'; then
-            docker stop anecode-backend && docker rm anecode-backend
+          if docker ps -a --format '{{.Names}}' | grep -Eq '^anecode-frontend$'; then
+            docker stop anecode-frontend && docker rm anecode-frontend
           fi
           EOF
 
       - name: Remove old frontend Docker image
         run: |
           sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh -o StrictHostKeyChecking=no root@${{ secrets.SSH_HOST }} << 'EOF'
-          docker rmi ghcr.io/whaleopop/anecode-backend:latest || true  # Remove the old frontend image
+          docker rmi ghcr.io/whaleopop/anecode-frontend:latest || true  # Remove the old frontend image
           EOF
 
       - name: Pull and deploy new Docker container
         run: |
           sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh -o StrictHostKeyChecking=no root@${{ secrets.SSH_HOST }} << 'EOF'
-          docker pull ghcr.io/whaleopop/anecode-backend:latest
-          docker run -d --name anecode-backend -p 8000:80 ghcr.io/whaleopop/anecode-backend:latest 
+          docker pull ghcr.io/whaleopop/anecode-frontend:latest
+          docker run -d --name anecode-frontend -p 8080:8080 ghcr.io/whaleopop/anecode-frontend:latest 
           EOF
