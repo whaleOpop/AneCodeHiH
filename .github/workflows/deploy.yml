@@ -76,16 +76,29 @@ jobs:
       - name: Stop and delete existing Docker container
         run: |
           sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh -o StrictHostKeyChecking=no root@${{ secrets.SSH_HOST }} << 'EOF'
+        
+          if docker ps --format '{{.Names}}' | grep -Eq '^anecode-frontend$'; then
+            echo "Stopping running container: anecode-frontend"
+            docker stop anecode-frontend
+          fi
+
+      
           if docker ps -a --format '{{.Names}}' | grep -Eq '^anecode-frontend$'; then
-            docker stop anecode-frontend && docker rm anecode-frontend
+            echo "Removing container: anecode-frontend"
+            docker rm anecode-frontend
           fi
           EOF
 
       - name: Remove old frontend Docker image
         run: |
           sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh -o StrictHostKeyChecking=no root@${{ secrets.SSH_HOST }} << 'EOF'
-          docker rmi ghcr.io/whaleopop/anecode-frontend:latest || true  # Remove the old frontend image
+        
+          if docker images --format '{{.Repository}}:{{.Tag}}' | grep -Eq '^ghcr.io/whaleopop/anecode-frontend:latest$'; then
+            echo "Removing Docker image: ghcr.io/whaleopop/anecode-frontend:latest"
+            docker rmi ghcr.io/whaleopop/anecode-frontend:latest
+          fi
           EOF
+
 
       - name: Pull and deploy new Docker container
         run: |
