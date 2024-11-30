@@ -74,8 +74,8 @@ jobs:
       - name: Stop and delete existing Docker container
         run: |
           sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh -o StrictHostKeyChecking=no root@${{ secrets.SSH_HOST }} << 'EOF'
-          if docker ps -a --format '{{.Names}}' | grep -Eq '^docker-db$'; then
-            docker stop docker-db && docker rm docker-db
+          if docker ps -a --format '{{.Names}}' | grep -Eq '^rest-db$'; then
+            docker stop rest-db && docker rm rest-db
           fi
           EOF
 
