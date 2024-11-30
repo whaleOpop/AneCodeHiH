@@ -3,11 +3,13 @@ import { createRouter, createWebHistory } from 'vue-router'
 import NProgress from 'nprogress';
 
 
+
 import WelcomePage from './views/WelcomePage.vue'
 import TeamPage from './views/TeamPage.vue'
 import DashBoard from './views/DashBoard.vue'
 
-import ReportPage from './views/ReportsPage.vue'
+import ReportsPage from './views/ReportsPage.vue'
+import CreateReportPage from './views/CreateReportPage.vue'
 
 const routes = [
   {
@@ -28,7 +30,12 @@ const routes = [
       {
         path: 'main',
         name: 'main',
-        component: ReportPage,
+        component: ReportsPage,
+      },
+      {
+        path: 'create',
+        name: 'create',
+        component: CreateReportPage,
       },
       {
         path: 'help',

@@ -63,6 +63,7 @@ export default {
     font-weight: 500;
     color: var(--colors-black);
     font-size: 12px;
+    margin: 0;
 }
 img{
     width: 10px;

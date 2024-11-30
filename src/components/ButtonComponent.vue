@@ -50,7 +50,7 @@ export default {
 .outline{
     font-size: 12px;
     cursor: pointer;
-    background-color: var(--colors-white);
+    background-color: #ffffff;
     border: 1px solid #E0E2EA;
     height: 36px;
     padding: 10px 20px;
