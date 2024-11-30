@@ -81,9 +81,15 @@ jobs:
           fi
           EOF
 
+      - name: Remove old frontend Docker image
+        run: |
+          sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh -o StrictHostKeyChecking=no root@${{ secrets.SSH_HOST }} << 'EOF'
+          docker rmi ghcr.io/whaleopop/anecode-frontend:latest || true  # Remove the old frontend image
+          EOF
+
       - name: Pull and deploy new Docker container
         run: |
           sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh -o StrictHostKeyChecking=no root@${{ secrets.SSH_HOST }} << 'EOF'
           docker pull ghcr.io/whaleopop/anecode-frontend:latest
-          docker run -d --name anecode-frontend -p 8890:8090 ghcr.io/whaleopop/anecode-frontend:latest 
+          docker run -d --name anecode-frontend -p 8080:80 ghcr.io/whaleopop/anecode-frontend:latest 
           EOF
