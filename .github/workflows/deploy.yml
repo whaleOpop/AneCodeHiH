@@ -84,7 +84,7 @@ jobs:
       - name: Remove old frontend Docker image
         run: |
           sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh -o StrictHostKeyChecking=no root@${{ secrets.SSH_HOST }} << 'EOF'
-          docker rm ghcr.io/whaleopop/anecode-frontend:latest || true  # Remove the old frontend image
+          docker rmi ghcr.io/whaleopop/anecode-frontend:latest || true  # Remove the old frontend image
           EOF
 
       - name: Pull and deploy new Docker container
