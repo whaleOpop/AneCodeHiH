@@ -85,18 +85,18 @@ jobs:
           fi
           EOF
 
-      - name: Stop and delete existing Docker container
-        run: |
-          sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh -o StrictHostKeyChecking=no root@${{ secrets.SSH_HOST }} << 'EOF'
-          if docker ps -a --format '{{.Names}}' | grep -Eq '^anecode-frontend$'; then
-            docker stop anecode-frontend && docker rm anecode-frontend
-          fi
-          EOF
+      # - name: Stop and delete existing Docker container
+      #   run: |
+      #     sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh -o StrictHostKeyChecking=no root@${{ secrets.SSH_HOST }} << 'EOF'
+      #     if docker ps -a --format '{{.Names}}' | grep -Eq '^anecode-frontend$'; then
+      #       docker stop anecode-frontend && docker rm anecode-frontend
+      #     fi
+      #     EOF
 
 
-      - name: Pull and deploy new Docker container
-        run: |
-          sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh -o StrictHostKeyChecking=no root@${{ secrets.SSH_HOST }} << 'EOF'
-          docker pull ghcr.io/whaleopop/anecode-frontend:latest
-          docker run -d --name anecode-frontend -p 8080:80 ghcr.io/whaleopop/anecode-frontend:latest 
-          EOF 
+      # - name: Pull and deploy new Docker container
+      #   run: |
+      #     sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh -o StrictHostKeyChecking=no root@${{ secrets.SSH_HOST }} << 'EOF'
+      #     docker pull ghcr.io/whaleopop/anecode-frontend:latest
+      #     docker run -d --name anecode-frontend -p 8080:80 ghcr.io/whaleopop/anecode-frontend:latest 
+      #     EOF 
