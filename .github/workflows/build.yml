@@ -63,7 +63,7 @@ jobs:
 
       - name: Execute remote commands with sshpass
         run: |
-          sshpass -p "${{ secrets.SSH_PASSWORD}}" ssh -o StrictHostKeyChecking=no root@${{ secrets.SSH_HOST }} << 'EOF'
+          sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh -o StrictHostKeyChecking=no root@${{ secrets.SSH_HOST }} << 'EOF'
           if ! id -u deploy_user &>/dev/null; then
             useradd -m deploy_user
             echo "deploy_user:password" | chpasswd
@@ -82,6 +82,6 @@ jobs:
       - name: Pull and deploy new Docker container
         run: |
           sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh -o StrictHostKeyChecking=no root@${{ secrets.SSH_HOST }} << 'EOF'
-          docker pull ${{ env.IMAGE_NAME }}:
-          docker run -e MYSQL_USER=root -e MYSQL_PASSWORD=${{secrets.SSH_PASSWORD}} -e MYSQL_HOST=${{ secrets.SSH_HOST }} -e MYSQL_DB=${{secrets.MYSQL_DB}} -d --name anecode-rest-db -p 8889:8889 ${{ env.IMAGE_NAME }}:rest-db
+          docker pull ${{ env.IMAGE_NAME }}:rest-db
+          docker run -e MYSQL_USER=root -e MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }} -e MYSQL_HOST=${{ secrets.MYSQL_HOST}} -e MYSQL_DB=${{ secrets.MYSQL_DB }} -d --name anecode-rest-db -p 8889:8889 ${{ env.IMAGE_NAME }}:rest-db
           EOF
