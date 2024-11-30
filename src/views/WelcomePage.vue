@@ -65,7 +65,21 @@ export default {
     methods:{
         async login_user(){
             const result = await this.v$.$validate()
-        }
+            if (result) {
+                try {
+                    const response = await this.$axios.post('/login/', {
+                    username: this.login,
+                    password: this.pass,
+                    }, {withCredentials: true});
+
+                    this.$store.dispatch('saveRegistrationData', response.data);
+
+                    this.$router.push('/dashboard');
+                } catch (error) {
+                    console.error('Ошибка входа', error);
+                }
+            }
+        },
     }
 }
 </script>

@@ -82,7 +82,6 @@
                         <CheckBox @click="addToDetails('Правая задняя стойка')" :label="'Правая задняя стойка'" :checked="isInDetails('Правая задняя стойка')"/>
                         <CheckBox @click="addToDetails('Левая задняя стойка')" :label="'Левая задняя стойка'" :checked="isInDetails('Левая задняя стойка')"/>
                     </div>
-
                 </div>
                 <div class="formRow">
                     <Counter :error="v$.cardData.disks.$error" :value="cardData.disks" @update:value="newValue => cardData.disks = newValue" style="width: 165px;" :label="'Диски'"/>
