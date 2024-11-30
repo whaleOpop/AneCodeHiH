@@ -11,7 +11,7 @@
             <img src="https://s1.1zoom.ru/b5050/21/231582-Sepik_2048x1152.jpg" alt="">
             <div class="name">Никита</div>
             <div class="quote">
-                Love vanilla css/html coding
+                Backend dev.
             </div>
             <div class="aspects">
                 <div class="skill">С/С++</div>
@@ -25,7 +25,7 @@
             <img src="https://avatars.mds.yandex.net/i?id=7a0a91c5a0d3faf537c1360d8cb0995a_l-7999331-images-thumbs&n=13" alt="">
             <div class="name">Артём</div>
             <div class="quote">
-                Love vanilla css/html coding
+                Frontend dev.
             </div>
             <div class="aspects">
                 <div class="skill">Vue3</div>
@@ -38,10 +38,10 @@
             <img src="https://avatars.mds.yandex.net/i?id=e2cec7be73a29d38bcf81705b7fd9510_l-5226832-images-thumbs&n=13" alt="">
             <div class="name">Ибрагим</div>
             <div class="quote">
-                Меня трудно найти, но легко потерять<br>P.S. для моих работодателей
+                Backend dev.
             </div>
             <div class="aspects">
-                <div class="skill">Backend dev.</div>
+                <div class="skill">Python</div>
                 <div class="skill">FastAPI</div>
                 <div class="skill">SQL</div>
             </div>
@@ -51,11 +51,11 @@
             <img src="https://otvet.imgsmail.ru/download/304422029_76e61d25d17e0ec8b958b05283c93898_800.jpg" alt="">
             <div class="name">Владислав</div>
             <div class="quote">
-                Love vanilla css/html coding
+                Backend dev.
             </div>
             <div class="aspects">
-                <div class="skill">Дедлок</div>
-                <div class="skill">Кс го</div>
+                <div class="skill">Django</div>
+                <div class="skill">C/C++</div>
             </div>
         </div>
 
@@ -63,10 +63,11 @@
             <img src="https://steamuserimages-a.akamaihd.net/ugc/1768204581714968895/F4B21A457320B142343D3F667229CF91146DA710/?imw=512&amp;imh=512&amp;ima=fit&amp;impolicy=Letterbox&amp;imcolor=%23000000&amp;letterbox=true" alt="">
             <div class="name">Алексей</div>
             <div class="quote">
-                Love vanilla css/html coding
+                Frontend dev.
             </div>
             <div class="aspects">
                 <div class="skill">Presentation</div>
+                <div class="skill">Html/Css</div>
             </div>
         </div>
 
