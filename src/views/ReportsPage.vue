@@ -4,7 +4,7 @@
     <p class="subtitle">Все отчеты клиентов по покраске автомобилей</p>
 
     <div class="reportsRow">
-        <div class="addNew">
+        <div class="addNew" @click="this.$router.push('/dashboard/create')">
             <img src="../assets/icons/add.svg" alt="">
         </div>
         <ReportCard v-for="report in reports" :key="report.id" :data="report"/>

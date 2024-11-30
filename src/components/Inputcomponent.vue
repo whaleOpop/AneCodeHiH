@@ -76,6 +76,7 @@ input{
     border: 1px solid var(--secondary-accent);
     color: var(--colors-black);
     padding-right: 35px;
+    background-color: #F7F7F9;
 }
 input:focus{
     outline: none;

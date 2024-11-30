@@ -79,6 +79,7 @@ export default {
     align-items: start;
     box-sizing: border-box;
     overflow: hidden;
+    background-color: white;
 }
 .banner{
     width: 60%;
