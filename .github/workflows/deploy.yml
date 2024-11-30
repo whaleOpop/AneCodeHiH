@@ -91,5 +91,5 @@ jobs:
         run: |
           sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh -o StrictHostKeyChecking=no root@${{ secrets.SSH_HOST }} << 'EOF'
           docker pull ghcr.io/whaleopop/anecode-frontend:latest
-          docker run -d --name anecode-frontend -p 8080:8080 ghcr.io/whaleopop/anecode-frontend:latest 
+          docker run -d --name anecode-frontend -p 8080:80 ghcr.io/whaleopop/anecode-frontend:latest 
           EOF
