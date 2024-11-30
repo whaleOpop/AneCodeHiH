@@ -1,0 +1,87 @@
+name: Build and Push Docker Image
+
+on:
+  push:
+    branches:
+      - 'rest-db'
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ghcr.io/whaleopop/rest-db
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Log in to the Container registry
+        uses: docker/login-action@v3.0.0
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
+        with:
+          images: ${{ env.IMAGE_NAME }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5.3.0
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup SSH Keys and known_hosts
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Start ssh-agent and add SSH key
+        run: |
+          eval $(ssh-agent -s)
+          ssh-add ~/.ssh/id_rsa
+
+      - name: Install sshpass
+        run: sudo apt-get install sshpass
+
+      - name: Execute remote commands with sshpass
+        run: |
+          sshpass -p "${{ secrets.SSH_PASSWORD}}" ssh -o StrictHostKeyChecking=no root@${{ secrets.SSH_HOST }} << 'EOF'
+          if ! id -u deploy_user &>/dev/null; then
+            useradd -m deploy_user
+            echo "deploy_user:password" | chpasswd
+            usermod -aG docker deploy_user
+          fi
+          EOF
+
+      - name: Stop and delete existing Docker container
+        run: |
+          sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh -o StrictHostKeyChecking=no root@${{ secrets.SSH_HOST }} << 'EOF'
+          if docker ps -a --format '{{.Names}}' | grep -Eq '^docker-db$'; then
+            docker stop docker-db && docker rm docker-db
+          fi
+          EOF
+
+      - name: Pull and deploy new Docker container
+        run: |
+          sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh -o StrictHostKeyChecking=no root@${{ secrets.SSH_HOST }} << 'EOF'
+          docker pull ${{ env.IMAGE_NAME }}:
+          docker run -e MYSQL_USER=root -e MYSQL_PASSWORD=${{secrets.SSH_PASSWORD}} -e MYSQL_HOST=${{ secrets.SSH_HOST }} -e MYSQL_DB=${{secrets.MYSQL_DB}} -d --name rest-db -p 8889:8889 ${{ env.IMAGE_NAME }}:lastest
+          EOF
