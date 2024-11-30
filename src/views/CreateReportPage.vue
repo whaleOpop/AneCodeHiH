@@ -184,7 +184,7 @@ export default {
     components: { ReportCard },
     data () {
         return {
-            step: 3,
+            step: 1,
             cardData: {
                 name: '',
                 avto: '',
