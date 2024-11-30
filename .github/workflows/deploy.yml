@@ -84,6 +84,6 @@ jobs:
       - name: Pull and deploy new Docker container
         run: |
           sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh -o StrictHostKeyChecking=no root@${{ secrets.SSH_HOST }} << 'EOF'
-          docker pull ${{ env.IMAGE_NAME }}:latest
-          docker run -d --name anecode-frontend ${{ env.IMAGE_NAME }}:latest
+          docker pull ghcr.io/whaleopop/anecode-frontend:latest
+          docker run -d --name anecode-frontend ghcr.io/whaleopop/anecode-frontend:latest
           EOF
