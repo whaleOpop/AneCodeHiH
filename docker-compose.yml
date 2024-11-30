@@ -4,5 +4,5 @@ services:
     image: ghcr.io/whaleopop/anecode-app:latest
     container_name: anecode-frontend
     ports:
-      - "8080:80"
+      - "8890:8090"
     restart: always
