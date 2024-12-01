@@ -115,9 +115,11 @@ docker run -p 3000:80 frontend
 
 ---
 
-# 🖌️ **Наш дизайн:**
+# 🖌️ **Наш дизайн и презентация:**
 
-[Посмотреть на Figma](https://www.figma.com/design/pVkUSqtDM1ixpHn0TnUvst/%D0%A1%D0%A2%D0%90%D0%9D%D0%9A%D0%98%D0%9D-%D1%85%D0%B0%D0%BA%D0%B0%D1%82%D0%BE%D0%BD?node-id=0-1&t=RlTNRO7tJoKlWs9c-1)
+### [**Посмотреть дизайн на Figma**](https://www.figma.com/design/pVkUSqtDM1ixpHn0TnUvst/%D0%A1%D0%A2%D0%90%D0%9D%D0%9A%D0%98%D0%9D-%D1%85%D0%B0%D0%BA%D0%B0%D1%82%D0%BE%D0%BD?node-id=0-1&t=RlTNRO7tJoKlWs9c-1)
+
+### [**Посмотреть презентацию на Canva**](https://www.canva.com/design/DAGX5Ck6_aM/CsrNKXlu9K-CqXd53_Lfng/view?utm_content=DAGX5Ck6_aM&utm_campaign=designshare&utm_medium=link&utm_source=editor)
 
 ---
 
