@@ -1,6 +1,7 @@
 from datetime import datetime, timedelta
 from jose import jwt, JWTError
 from passlib.context import CryptContext
+from fastapi import HTTPException, status
 
 from dotenv import load_dotenv
 import os
@@ -20,14 +21,14 @@ def get_password_hash(password: str) -> str:
 
 def create_access_token(data: dict) -> str:
     to_encode = data.copy()
-    expire = datetime.utcnow() + timedelta(minutes=os.getenv(ACCESS_TOKEN_EXPIRE_MINUTES))
+    expire = datetime.utcnow() + timedelta(minutes=int(os.getenv('ACCESS_TOKEN_EXPIRE_MINUTES')))
     to_encode.update({"exp": expire})
-    return jwt.encode(to_encode, os.getenv(SECRET_KEY), algorithm=os.getenv(ALGORITHM))
+    return jwt.encode(to_encode, os.getenv('SECRET_KEY'), algorithm=os.getenv('ALGORITHM'))
 
 
 def verify_access_token(token: str) -> dict:
     try:
-        payload = jwt.decode(token, os.getenv(SECRET_KEY), algorithms=[os.getenv(ALGORITHM)])
+        payload = jwt.decode(token, os.getenv('SECRET_KEY'), algorithms=[os.getenv('ALGORITHM')])
         return payload
     except JWTError:
         raise HTTPException(
