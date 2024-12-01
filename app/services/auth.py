@@ -27,7 +27,7 @@ def verify_password(plain_password: str, hashed_password: str):
 def authenticate_user(db: Session, username: str, password: str):
     from app.db import crud # для предотвращения циклического выполнения
     user = crud.get_user_by_username(db, username)
-    if user is None or not verify_password(password, user.password):
+    if user is None or not verify_password(password, user.password_hash):
         return None
     return user
 
