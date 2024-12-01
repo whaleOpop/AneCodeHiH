@@ -1,6 +1,8 @@
 <template>
-	<div class="faq-card">
-		<div class="icon">{{ icon }}</div>
+	<div class="FaqCard">
+		<div class="icon">
+			<slot name="icon"></slot>
+		</div>
 		<h3>{{ title }}</h3>
 		<ul>
 			<li v-for="question in questions" :key="question">{{ question }}</li>
