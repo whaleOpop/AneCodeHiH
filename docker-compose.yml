@@ -20,6 +20,9 @@ services:
       MYSQL_DATABASE: '${{secrets.MYSQL_DB}}'
       MYSQL_USER: root
       MYSQL_PASSWORD: '${{secrets.MYSQL_PASSWORD}}'
+      SECRET_KEY: '${{secrets.SECRET_KEY}}'  
+      ALGORITHM: '${{secrets.ALGORITHM}}'            
+      ACCESS_TOKEN_EXPIRE_MINUTES: '${{secrets.ACCESS_TOKEN_EXPIRE_MINUTES}}'  
     ports:
       - "3306:3306"
     volumes:
