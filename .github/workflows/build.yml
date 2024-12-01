@@ -83,5 +83,5 @@ jobs:
         run: |
           sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh -o StrictHostKeyChecking=no root@${{ secrets.SSH_HOST }} << 'EOF'
           docker pull ghcr.io/whaleopop/anecode-rest-db:rest-db
-          docker run -e MYSQL_USER=root -e MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }} -e MYSQL_HOST=${{ secrets.MYSQL_HOST}} -e MYSQL_DB=${{ secrets.MYSQL_DB }} -e ACCESS_TOKEN_EXPIRE_MINUTES=${{secrets.ACCESS_TOKEN_EXPIRE_MINUTES}} -e ALGORITHM=${{secrets.ALGORITHM}} -e SECRET_KEY =${{secrets.SECRET_KEY}}  -d --name anecode-rest-db -p 8889:8889 ghcr.io/whaleopop/anecode-rest-db:rest-db
+          docker run -e MYSQL_USER=root -e MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }} -e MYSQL_HOST=${{ secrets.MYSQL_HOST}} -e MYSQL_DB=${{ secrets.MYSQL_DB }} -e ACCESS_TOKEN_EXPIRE_MINUTES=${{secrets.ACCESS_TOKEN_EXPIRE_MINUTES}} -e ALGORITHM=${{secrets.ALGORITHM}} -e SECRET_KEY =${{secrets.SECRET_KEY}} -d --name anecode-rest-db -p 8889:8889 ghcr.io/whaleopop/anecode-rest-db:rest-db
           EOF
