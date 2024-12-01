@@ -7,7 +7,7 @@
 				<h1 class="title">Помощь</h1>
 				<p class="subtitle">Ответы на часто задаваемые вопросы</p>
 			</div>
-			<div class="faq-grid">
+			<div class="FaqCard">
 				<FaqCard
 					title="Авторизация"
 					:questions="[
