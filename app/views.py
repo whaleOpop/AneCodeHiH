@@ -30,27 +30,6 @@ def login_view(request):
     except requests.exceptions.RequestException as e:
         return JsonResponse({"error": str(e)}, status=500)
 
-
-
-@api_view(['POST'])
-def register_view(request):
-    username = request.data.get('username')
-    password = request.data.get('password')
-
-    payload = {
-        'username': username,
-        'password': password
-    }
-
-
-    try:
-        response = requests.post(f"{EXTERNAL_API_URL}/register", data=payload)
-
-
-        if response.status_code == 201:
-            return JsonResponse({"message": "User registered successfully"}, status=201)
-        else:
-            return JsonResponse({"error": "Registration failed"}, status=response.status_code)
-
-    except requests.exceptions.RequestException as e:
-        return JsonResponse({"error": str(e)}, status=500)
+#ф-ция получения всех id 
+#создание отчета
+#ф-ция создание всего отчета
